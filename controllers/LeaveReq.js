@@ -37,7 +37,7 @@ export const deleteLeaveReq = async (req, res, next) => {
 
 export const getById = async (req, res, next) => {
     try{
-        const leavereq = await LeaveReq.findById(req.params.id);
+        const leavereq = await LeaveReq.findById(req.params.id).populate('employee.employee_id','full_name email phone_number');
         res.status(200).json(leavereq);
     }
     catch(err){
@@ -47,7 +47,7 @@ export const getById = async (req, res, next) => {
 
 export const getByIdEmployee = async (req, res, next) => {
     try{
-        const leavereq = await LeaveReq.find({employee_id: req.params.id});
+        const leavereq = await LeaveReq.find({employee_id: req.params.id}).populate('employee.employee_id','full_name email phone_number');
         res.status(200).json(leavereq);
     }
     catch(err){

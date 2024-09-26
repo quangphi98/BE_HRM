@@ -3,10 +3,14 @@ import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
 const LeaveReqSchema = new Schema({
-    employee_id: { 
-        type: mongoose.Schema.Types.ObjectId, 
-        ref: 'Employee', 
-        required: true 
+    employee: {
+        employee_id: {
+            type: Schema.Types.ObjectId, 
+            ref: 'Employee'
+        },
+        full_name: String,
+        email: String,
+        phone_number: String
     },
     startDate: { 
         type: Date, 

@@ -1,8 +1,19 @@
 import Payroll from '../models/Payroll.js';
+import Employee from '../models/Employee.js';
 
 export const createPayroll = async (req, res, next) => {
-    const payroll = new Payroll(req.body)
     try{
+        const employee = await Employee.findById(employee_id)
+        if (!employee) {
+            return res.status(404).json({ message: 'employee not found' });
+        }
+        const payroll = new Payroll({
+            baseSalary,
+            bonuses,
+            deductions,
+            totalPay,
+            employee: {employee_id : employee._id}
+        });
         await payroll.save();
         res.status(200).send("Tạo bảng lương thành công")
     }
@@ -37,7 +48,7 @@ export const deletePayroll = async (req, res, next) => {
 
 export const getAllPayroll = async (req, res, next) => {
     try{
-        const allPayroll = await Payroll.find();
+        const allPayroll = await Payroll.find().populate('employee.employee_id','full_name email phone_number');
         res.status(200).json(allPayroll);
     }
     catch(err){
@@ -47,7 +58,7 @@ export const getAllPayroll = async (req, res, next) => {
 
 export const getPayroll = async (req, res, next) => {
     try{
-        const payroll = await Payroll.findById(req.params.id);
+        const payroll = await Payroll.findById(req.params.id).populate('employee.employee_id','full_name email phone_number');
         res.status(200).json(payroll);
     }
     catch(err){
@@ -57,7 +68,7 @@ export const getPayroll = async (req, res, next) => {
 
 export const getPayrollByIdUser = async (req, res, next) => {
     try{
-        const payroll = await Payroll.find({employee_id: req.params.id});
+        const payroll = await Payroll.find({employee_id: req.params.id}).populate('employee.employee_id','full_name email phone_number');
         res.status(200).json(payroll);
     }
     catch(err){

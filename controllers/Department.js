@@ -1,9 +1,17 @@
 import Department from '../models/Department.js';
+import Employee from '../models/Employee.js';
 
 export const createDepartment= async (req, res, next) => {
-    const newDepartment = new Department(req.body);
-
     try{
+        const manager = await Employee.findById(manager_id)
+        if (!manager) {
+            return res.status(404).json({ message: 'Manager not found' });
+        }
+        const newDepartment = new Department({
+            department_name,
+            description,
+            manager: { manager_id: manager._id }
+        });
         const saveDepartment = await newDepartment.save();
         res.status(200).json(saveDepartment);
     }
@@ -41,7 +49,7 @@ export const deleteDepartment = async (req, res, next) => {
 
 export const getAllDepartment= async (req, res, next) => {
     try{
-        const findDepartments = await Department.find();
+        const findDepartments = await Department.find().populate('manager.manager_id', 'full_name email phone_number');
         res.status(200).json(findDepartments);
     }
     catch(err) {
@@ -53,7 +61,7 @@ export const getDepartment = async (req, res, next) => {
     try{
         const findDepartment = await Department.findById(
             req.params.id
-        )
+        ).populate('manager.manager_id', 'full_name email phone_number')
         res.status(200).json(findDepartment);
     }
     catch(err){

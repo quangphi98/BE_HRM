@@ -39,16 +39,24 @@ const EmployeeSchema = new Schema({
         type: String,
         trim: true
     },
-    position: { 
-        type: Schema.Types.ObjectId, 
-        ref: 'Position',
+    position:{
+        position_id: { 
+            type: Schema.Types.ObjectId, 
+            ref: 'Position',
+        },
+        name: String,
+        description: String
     },
     start_date: {
         type: Date,
     },
-    department_id: {
-        type: Schema.Types.ObjectId,
-        ref: 'Department'
+    department: {
+        department_id: {
+            type: Schema.Types.ObjectId,
+            ref: 'Department'
+        },
+        department_name: String,
+        description: String
     },
     profileImage: {
          type: String 

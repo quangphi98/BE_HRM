@@ -1,4 +1,6 @@
 import Employee from "../models/Employee.js";
+import Department from '../models/Department.js';
+import Position from '../models/Position.js';
 
 export const updateInfor = async (req, res, next) => {
     try{
@@ -26,7 +28,9 @@ export const deleteInfor = async (req, res, next) => {
 
 export const getAllInfor = async (req, res, next) => {
     try{
-        const allInfor = await Employee.find();
+
+        const allInfor = await Employee.find().populate('position.position_id', 'name description')  
+                                              .populate('department.department_id', 'department_name description');
         res.status(200).send(allInfor);
     }
     catch(err){
@@ -36,7 +40,8 @@ export const getAllInfor = async (req, res, next) => {
 
 export const getInfor = async (req, res, next) => {
     try{
-        const infor = await Employee.findById(req.params.id);
+        const infor = await Employee.findById(req.params.id).populate('position.position_id', 'name description')  
+                                                            .populate('department.department_id', 'department_name description');
         res.status(200).send(infor);
     }
     catch(err){

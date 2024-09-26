@@ -19,7 +19,8 @@ const DepartmentSchema = new Schema({
             ref: 'Employee'
         },
         full_name: String,
-        email: String
+        email: String,
+        phone_number: String
     },
     created_at: {
         type: Date,

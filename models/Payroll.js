@@ -17,8 +17,14 @@ const PayrollSchema = new Schema({
     totalPay: { 
         type: Number 
     },
-    employee_id: {
-        type: Schema.Types.ObjectId,
+    employee: {
+        employee_id: {
+            type: Schema.Types.ObjectId, 
+            ref: 'Employee'
+        },
+        full_name: String,
+        email: String,
+        phone_number: String
     },
     created_at: {
         type: Date,
